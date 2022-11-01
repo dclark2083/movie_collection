@@ -1,42 +1,140 @@
 #include "library.h"
-#include <list>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
+void menu();
+movie new_movie();
+
 int main() {
-  list<int> mylist;
-  list<int>::iterator it1,it2;
-
-  for (int i=1; i<10; ++i) {
-    mylist.push_back(i*10);
-  }
-
-  it1 = it2 = mylist.begin();
-
-  cout << "mylist contains:";
-  for (it1=mylist.begin(); it1!=mylist.end(); ++it1) {
-    cout << ' ' << *it1;
-}
-  cout << endl;
-  
-  
-  
   /* A simple linked list-based movie DB */
-  list<movie> library; // library of movies
-
-  metadata temp;
-
-  //temp.Title = "Primal";
-  //temp.Director_Name = "Genndy Tartakovsky";
-  //temp.Movie_Runtime = 22;
+  library movies;
   
+  int selection = 0;
+  while(selection != 8){
+    menu();
+    cin >> selection;
+    switch(selection) {
+      
+    case 1: { // Prints movie collection
+      cout << "Option 1" << endl;
+      movies.print();
+    } break;
+
+      //Search collection for a movie
+    case 2: {
+      cout << "Option 2" << endl;
+      string title = "";
+      cout << "What do you want to watch? ";
+      getline(cin, title);
+      movies.find_movie(title);
+      // Should print all the other info about the movie here...
+    } break;
+
+      //Print movies by director
+    case 3: {
+      cout << "Option 3" << endl;
+      string director = "";
+      cout << "What director are you in the mood for? ";
+      getline(cin, director);
+      movies.find_movie(director);
+      // Should print all the other info about the movie here...
+    } break;
+
+      //Add a movie to collection
+    case 4: {
+	cout << "Option 4" << endl;
+	movie new_one = new_movie();
+	movies.insert_sorted(new_one);
+    } break;
+
+      //Delete a movie from collection
+    case 5: {
+      cout << "Option 5" << endl;
+      string title = "";
+      cout << "What movie do you not want to watch again forever? ";
+      getline(cin, title);
+      movies.remove(title);
+    } break;
+
+      //Read in list of movies from file.
+    case 6: {
+      cout << "Option 6" << endl;
+      string fileName = "";
+      cout << "Please enter file name: ";
+      cin >> fileName;
+      movies.read_from_file(fileName);
+    } break;
+
+      //Write list of movies to file.
+    case 7: {
+      cout << "Option 7" << endl;
+      string fileName = "";
+      cout << "Please enter file name: ";
+      cin >> fileName;
+      movies.write_to_file(fileName);
+    } break;
+
+      // Exits program
+    case 8: {
+      cout << "Option 8" << endl;
+    } break;
+      
+    default:
+      cout << "Only use numbers 1 - 8" << endl;
+    }
+  }
   
-
-
-
-  
-  cout << "hello." << endl;
-  cout << "hello yourself" << endl;
   return 0;
+}
+
+
+void menu() {
+ cout << "\nWelcome to your horror movie collection. "
+      << "Please select from one of the following 8 options." << endl;
+  cout << "\t[1] - Print current movie collection." << endl;
+  cout << "\t[2] - Search collection for a movie using key phrase." << endl;
+  cout << "\t[3] - Print movie(s) from collection by a specific director." << endl;
+  cout << "\t[4] - Add a movie to collection." << endl;
+  cout << "\t[5] - Delete a movie from collection." << endl;
+  cout << "\t[6] - Import a list of movies to collection from file." << endl;
+  cout << "\t[7] - Export movie collection to file." << endl;
+  cout << "\t[8] - Exit movie collection management program." << endl;
+  cout << "Option #:";
+}
+
+
+movie new_movie() {
+  movie new_guy;
+  cout << "Title: ";
+  cin >> new_guy.Title;
+  
+  cout << endl
+       << endl
+       << "Director: ";
+  cin >> new_guy.Director_Name;
+  //getline(cin, new_guy.Director_Name);
+  
+  cout << endl
+       << endl
+       << "Runtime (minutes): ";
+  cin >> new_guy.Movie_Runtime;
+
+  cout << endl
+       << endl
+       << "Movie format: ";
+  cin >> new_guy.format;
+
+  cout << endl
+       << endl
+       << "Price: $";
+  cin >> new_guy.Price;
+
+  cout << endl
+       << endl
+       << "Release year: ";
+  cin >> new_guy.Year;
+
+  return new_guy;
 }

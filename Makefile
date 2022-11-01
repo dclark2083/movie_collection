@@ -24,19 +24,15 @@ default: all
 all: $(TARGET)
 
 #The executable to be compiled
-$(TARGET): movie.o library.o main.o
-	$(CC) $(CFLAGS-O) movie.o library.o main.o
+$(TARGET): library.o main.o
+	$(CC) $(CFLAGS-O) library.o main.o
 
 #The binary of the node class
-movie.o: movie.cpp movie.h
-	$(CC) $(CFLAGS-C) movie.cpp
-
-#The binary of the phonebook class
 library.o: library.cpp library.h
 	$(CC) $(CFLAGS-C) library.cpp
 
 #The binary of the main file
-main.o: main.cpp library.h movie.h
+main.o: main.cpp library.h
 	$(CC) $(CFLAGS-C) main.cpp
 
 # Invoked with 'make clean'
