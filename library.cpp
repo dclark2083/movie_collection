@@ -39,9 +39,12 @@ void library::read_from_file(string fileName) {
     getline(in, new_movie.Title);
   }
   in.close();
-  cout << "." << "\n." << "\n." << endl;
-  cout << "Movies successfully imported from file to collection." << endl;
-  cout << endl;
+  
+  if (in.eof()) {
+    cout << fileName << " read successfully!!" << endl; // Joy
+  } else {
+    cout << "error writting: " << fileName << endl;
+  }
 }
 
 
@@ -63,6 +66,13 @@ void library::write_to_file(string fileName) {
     it++;
   }
   out.close();
+  
+  if (out.eof()) {
+    cout << "File written successfully." << endl;
+  } else {
+    cout << "error writting: " << fileName << endl; // Sad
+  }
+  
   cout << "File written successfully." << endl;
 }
 
@@ -81,12 +91,14 @@ void library::insert_sorted(movie new_movie) {
     it++;
   }
   collection.insert(it, new_movie);
+
+  cout << "inserted successfully!!" << endl;
 }
 
 //Prints all of the movies with the searched string as a substring.
 movie library::find_movie(string title) {
-  movie temp;
-  temp.Title = "Title not found.";
+  movie not_found;
+  not_found.Title = "Title not found.";
   
   list<movie>::iterator it;
   it = collection.begin();
@@ -95,11 +107,15 @@ movie library::find_movie(string title) {
     it++;
   }
 
-  if(it != collection.end()) {
-    return *it;
+  if(it == collection.end()) {
+    cout << "Not Found!!" << endl
+       << "Title: " << it->Title << endl
+       << endl;
+    
+    return not_found;
   }
-
-  return temp;
+  
+  return *it;
 }
 
 

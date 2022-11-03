@@ -1,19 +1,17 @@
-/*THINGS TO THINK ABOUT BEFORE FINAL PUSH
- 
+/* THINGS TO THINK ABOUT BEFORE FINAL PUSH
+  
   (1)For options 1, 2, 3, 5, 7 should we check the size of the list, and if empty print something
   like "Your movie collection is currently empty, try adding a movie first." But if the db does
   contain movie(s) it behaves as we have it?
-
+  
   (2)Do we want a fail message for if a movie isn't found? Say the user doesn't own the movie
   Forest Gump. They search, and the program should tell them "That movie does not currently exist in db."
-
+  
   (3)Same thing as (2) but for director?
-
+  
   (4)Do we want to set all entries from user to upper or lower case so that sorting doesn't rely on user knowing ascii values?
-
-  (5)On option 4, how can we add a print for the info of the movie the user just added? I tried using my movieFound print helper function.
-
-*/
+  
+  (5)On option 4, how can we add a print for the info of the movie the user just added? I tried using my movieFound print helper function. */
 
 /**
  * @file main.cpp
@@ -32,7 +30,7 @@
 using namespace std;
 
 void menu();
-void movieFound();
+void movieFound(movie found);
 movie new_movie();
 
 int main() {
@@ -46,7 +44,7 @@ int main() {
     switch(selection) {
 
       // Prints movie collection
-    case 1: { 
+    case 1: {
       cout << "[1] - Print current movie collection." << endl;
       cout << endl;
       cout << "Here is your current Horror Movie Collection" << endl;
@@ -63,7 +61,12 @@ int main() {
       getline(cin, title);
       movie found;
       found = movies.find_movie(title);
-      movieFound();
+      // Title is found.
+      if(found.Title != "Title not found.") {
+	
+	cout << "Please Enjoy...";
+      }
+      //movieFound(found);
     } break;
 
       //Print movies by director
@@ -75,18 +78,18 @@ int main() {
       getline(cin, director);
       movie found;
       found = movies.director_search(director);
-      movieFound();
+      cout << "Found it!!" << found.Title << endl;
+      movieFound(found);
     } break;
-
+      
       //Add a movie to collection
     case 4: {
       cout << "[4] - Add a movie to collection." << endl;
       cout << endl;
       cin.get();
-      movie new_one = new_movie();
-      movies.insert_sorted(new_one);
+      movie new_fav_movie = new_movie();
+      movies.insert_sorted(new_fav_movie);
       cout << endl;
-      //cout << movie.Title << "successfully added to collection." << endl;
       //movieFound();
     } break;
 
@@ -102,11 +105,12 @@ int main() {
 
       //Read in list of movies from file.
     case 6: {
-      cout << "[6] - Import a list of movies to collection from file." << endl;
+      cout << "[6] - Import a list of movies to collection from file." << endl << endl;
       string fileName = "";
       cout << "Please enter file name to be imported: ";
       cin >> fileName;
       movies.read_from_file(fileName);
+      cout << endl;
     } break;
 
       //Write list of movies to file.
@@ -134,21 +138,21 @@ int main() {
 
 
 void menu() {
-  cout << "Welcome to your horror movie collection management program. " << endl;
-  cout << "Please select from one of the following 8 options." << endl;
-  cout << "[1] - Print current movie collection." << endl;
-  cout << "[2] - Search collection for a movie using key phrase." << endl;
-  cout << "[3] - Print movie(s) from collection by a specific director." << endl;
-  cout << "[4] - Add a movie to collection." << endl;
-  cout << "[5] - Delete a movie from collection." << endl;
+  cout << "Welcome to your horror movie collection management program. " << endl
+       << "Please select from one of the following 8 options..." << endl
+       << endl
+       << "[1] - Print current movie collection." << endl
+       << "[2] - Search collection for a movie using key phrase." << endl
+       << "[3] - Print movie(s) from collection by a specific director." << endl
+       << "[4] - Add a movie to collection." << endl
+       << "[5] - Delete a movie from collection." << endl;
   cout << "[6] - Import a list of movies to collection from file." << endl;
   cout << "[7] - Export movie collection to file." << endl;
   cout << "[8] - Exit movie collection management program." << endl;
-  cout << "Option#: ";
+  cout << endl << "Option#: ";
 }
 
-void movieFound() {
-  movie found;
+void movieFound(movie found) {
   cout << "Found: " << endl
        << "Title: " << found.Title << endl
        << "Director: " << found.Director_Name << endl
