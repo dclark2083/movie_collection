@@ -108,10 +108,8 @@ movie library::find_movie(string title) {
   }
 
   if(it == collection.end()) {
-    cout << "Not Found!!" << endl
-       << "Title: " << it->Title << endl
-       << endl;
-    
+    cout << '\n' << title << " is not in your collection." << endl;
+    cout << endl;
     return not_found;
   }
   
