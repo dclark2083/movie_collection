@@ -5,7 +5,7 @@
 
 using namespace std;
 
-library::library() {} // Unused default constructor...
+library::library() {} // Included for extendability.
 
 
 // reads the library from a file
@@ -14,14 +14,23 @@ void library::read_from_file(string fileName) {
   movie new_movie;
   
   in.open(fileName);
-  in >> new_movie.Title; // Priming read
+  getline(in, new_movie.Title); // Priming read
   while(in) {
-    in >> new_movie.Director_Name >> new_movie.Movie_Runtime
-       >> new_movie.format >> new_movie.Price >> new_movie.Year;
+    getline(in, new_movie.Director_Name);
+    in >> new_movie.Movie_Runtime;
+    in.get();
+    in >> new_movie.format;
+    in.get();
+    in >> new_movie.Price;
+    in.get();
+    in >> new_movie.Year;
+    in.get();
     insert_sorted(new_movie);
-    in >> new_movie.Title;
+    in.get();
+    getline(in, new_movie.Title);
   }
   in.close();
+  cout << "Movies loaded" << endl;
 }
 
 
@@ -33,8 +42,13 @@ void library::write_to_file(string fileName) {
   
   out.open(fileName);
   while(it != collection.end()) {
-    out << it->Title << it->Director_Name << it->Movie_Runtime
-	<< it->format << it->Price << it->Year << '\n';
+    out << it->Title << '\n'
+	<< it->Director_Name << '\n'
+	<< it->Movie_Runtime << '\n'
+	<< it->format << '\n'
+	<< it->Price << '\n'
+	<< it->Year << '\n'
+	<< '\n';
     it++;
   }
   out.close();
@@ -43,51 +57,85 @@ void library::write_to_file(string fileName) {
 
 // sort by the movie's title.
 void library::insert_sorted(movie new_movie) {
+  if(collection.size() == 0) {
+    collection.push_back(new_movie);
+    return;
+  }
+  
   list<movie>::iterator it;
   it = collection.begin();
-  
-  while(it != collection.end()) {
-    if(it->Title < new_movie.Title) {
-      collection.insert(it, new_movie);
-      return;
-    }
+
+  while( (it->Title < new_movie.Title) && (it != collection.end()) ) {
     it++;
   }
+  collection.insert(it, new_movie);
+  
+  // while(it != collection.end()) {
+  //   if(it->Title < new_movie.Title) {
+  //     collection.insert(it, new_movie);
+  //     return;
+  //   }
+  //   if(it->Title > new_movie.Title) {
+  //     it--;
+  //     collection.insert(it, new_movie);
+  //   }
+  //   it++;
+  // }
 }
 
 
 // prints all of the movies with the searched string as a substring
-string library::find_movie(string title) {
-  string temp = "Title not found.";
+movie library::find_movie(string title) {
+  movie temp;
+  temp.Title = "Title not found.";
   
   list<movie>::iterator it;
   it = collection.begin();
-  while(it != collection.end()) {
-    if(it->Title == title) {
-      return it->Title;
-    }
-    if(it->Director_Name == title) {
-      return it->Director_Name;
-    }
+
+  while( (it->Title != title) && (it != collection.end()) ) {
     it++;
   }
+
+  if(it != collection.end()) {
+    return *it;
+  }
+  
+  
+  // while(it != collection.end()) {
+  //   if(it->Title == title) {
+  //     return *it;
+  //   }
+  //   it++;
+  // }
 
   return temp;
 }
 
 
 // prints information on all movies by a given director
-string library::director_search(string director) {
-  string temp = "Director not found.";
+movie library::director_search(string director) {
+  movie temp;
+  temp.Director_Name = "Director not found.";
   
   list<movie>::iterator it;
   it = collection.begin();
-  while(it != collection.end()) {
-    if(it->Director_Name == director) {
-      return it->Director_Name;
-    }
+
+  cout << "here" << endl;
+
+  while( (it->Director_Name != director) && (it != collection.end()) ) {
     it++;
   }
+
+  if(it != collection.end()) {
+    return *it;
+  }
+  
+  // while(it != collection.end()) {
+  //   if(it->Director_Name == director) {
+  //     return *it;
+  //   }
+  //   it++;
+  // }
   
   return temp;
 }

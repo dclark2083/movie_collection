@@ -50,8 +50,8 @@ class library {
   void read_from_file(std::string fileName);
   void write_to_file(std::string fileName);
   void insert_sorted(movie new_movie);
-  std::string find_movie(std::string title);
-  std::string director_search(std::string director);
+  movie find_movie(std::string title);
+  movie director_search(std::string director);
   void print();
   void remove(std::string title);
 };
