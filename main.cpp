@@ -29,8 +29,37 @@
 
 using namespace std;
 
+
+/**
+ * Prints the menu of program options for user.
+ *
+ * @pre A menu has been designed to give the user options to interact with their movie collection.
+ * @return void 
+ * @post 
+ * 
+ */
 void menu();
+
+/**
+ * Determines if the search query is successful or fails.
+ *
+ * @param movie found A movie struct returned from search query.
+ * @param string thing String to compare with director or title.
+ * @pre Correctly formatted list of movies.
+ * @return void 
+ * @post 
+ * 
+ */
 void movieResult(movie found, string thing);
+
+/**
+ * Prompts the user for information needed for a movie struct.
+ *
+ * @pre Movie struct declaration.
+ * @return movie Returns a properly formatted movie struct.
+ * @post 
+ * 
+ */
 movie new_movie();
 
 int main() {
@@ -102,7 +131,6 @@ int main() {
       movie new_fav_movie = new_movie();
       movies.insert_sorted(new_fav_movie);
       cout << endl;
-      //      movieFound(found);
     } break;
 
       //Delete a movie from collection

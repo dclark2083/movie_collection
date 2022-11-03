@@ -4,7 +4,7 @@
  * @date 2022-11-02
  * @brief .cpp file to implement the library header file.
  * 
- * I can't recall, do these need a description other than brief?
+ * STL double ended queue container implementation details.
  */
 
 #include "library.h"

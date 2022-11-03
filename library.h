@@ -35,11 +35,13 @@ struct movie {
   short Year = 0;
 };
 
+
+
 /**
- * description of what library class does goes here.
+ * This library contains a private member of type movie list.
  *
- * @class library library.h "movie/library.h"
- * @brief class of library
+ * @class library library.h "movie_collection/library.h"
+ * @brief Container for STL list.
  *
  */
 class library {
@@ -47,10 +49,12 @@ class library {
   std::list<movie> collection;
  public:
 
+
+
 /**
- * Unused Default Constructor
+ * Default constructor for library.
  *
- * @post A properly formed phonebook object.
+ * Included for extendibility.
  * 
  */
   library();
@@ -61,8 +65,7 @@ class library {
  *
  * @param std::string fileName String variable containing name of file to be opened.
  * @pre A properly formatted string variable.
- * @return void 
- * @post 
+ * @post Movie collection has been updated from file.
  * 
  */
   void read_from_file(std::string fileName);
@@ -72,7 +75,6 @@ class library {
  *
  * @param std::string fileName String variable containing the name of the file to be created.
  * @pre Linked list of movies should be created and populated.
- * @return void 
  * @post Created an external file containing the list of movies and related information.
  * 
  */
@@ -81,21 +83,19 @@ class library {
 /**
  * Sorts the movies placed into linked list by alphabetical order.
  *
- * @param ??????
- * @pre ????????
- * @return void ??????????
- * @post  ???????????????????????????????????
+ * @param New movie to be inserted into list.
+ * @pre Properly formatted movie list and movie struct.
+ * @post Collection of movies is incremented by 1.
  * 
  */
   void insert_sorted(movie new_movie);
 
 /**
- * Searches movie collection by the entered string value and returns that movie.
+ * Searches movie collection by the entered string value and returns that movie struct.
  *
  * @param std::string title Properly formatted string variable of movie title.
  * @pre The linked list should contain properly formatted string variables containing the titles of movies.
  * @return movie If the movie is found, returns the movie and its related information.
- * @post 
  * 
  */
   movie find_movie(std::string title);
@@ -106,7 +106,6 @@ class library {
  * @param std::string director Properly formatted string variable of director's name.
  * @pre Linked list of movies has been created and contains information about the director.
  * @return movie If the director is present in the movie collection it will return that director's movie(s).
- * @post 
  * 
  */
   movie director_search(std::string director);
@@ -116,7 +115,6 @@ class library {
  *
  * @pre Linked list of movies has been created.
  * @return void If a database of movies is present it returns all movies in the database and their corresponding information.
- * @post 
  * 
  */
   void print();
@@ -126,8 +124,7 @@ class library {
  *
  * @param std::string title Properly formatted string variable of the movie title to be deleted.
  * @pre Linked list of movies has been created and proper movie title is passed to remove.
- * @return void 
- * @post 
+ * @post Collection of movie  has been increased by 1.
  * 
  */
   void remove(std::string title);
