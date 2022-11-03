@@ -41,9 +41,9 @@ void library::read_from_file(string fileName) {
   in.close();
   
   if (in.eof()) {
-    cout << fileName << " read successfully!!" << endl; // Joy
+    cout << ">> " << fileName << " has been imported into your collection. <<" << endl; // Joy
   } else {
-    cout << "error writting: " << fileName << endl;
+    cout << ">> " <<  fileName << " was not found. <<" << endl;
   }
 }
 
@@ -67,13 +67,15 @@ void library::write_to_file(string fileName) {
   }
   out.close();
   
-  if (out.eof()) {
-    cout << "File written successfully." << endl;
-  } else {
-    cout << "error writting: " << fileName << endl; // Sad
+  if (out.fail()) {
+    cout << '\n' << ">> " << fileName << " is not valid a valid filename. << " << endl;
+    cout << ">> Movie collection export cancelled. << " << endl;
+    cout << endl;
   }
-  
-  cout << "File written successfully." << endl;
+  else {
+    cout << ">> File " << fileName << " was written successfully. <<" << endl;
+    cout << endl;
+  }
 }
 
 
@@ -91,14 +93,13 @@ void library::insert_sorted(movie new_movie) {
     it++;
   }
   collection.insert(it, new_movie);
-
-  cout << "inserted successfully!!" << endl;
 }
 
 //Prints all of the movies with the searched string as a substring.
 movie library::find_movie(string title) {
   movie not_found;
   not_found.Title = "Title not found.";
+  not_found.Director_Name = "Director not found.";
   
   list<movie>::iterator it;
   it = collection.begin();
@@ -108,8 +109,6 @@ movie library::find_movie(string title) {
   }
 
   if(it == collection.end()) {
-    cout << '\n' << title << " is not in your collection." << endl;
-    cout << endl;
     return not_found;
   }
   
@@ -121,6 +120,7 @@ movie library::find_movie(string title) {
 movie library::director_search(string director) {
   movie temp;
   temp.Director_Name = "Director not found.";
+  temp.Title = "Title not found.";
   
   list<movie>::iterator it;
   it = collection.begin();
@@ -128,11 +128,9 @@ movie library::director_search(string director) {
   while( (it->Director_Name != director) && (it != collection.end()) ) {
     it++;
   }
-  
   if(it != collection.end()) {
     return *it;
   }
-  
   return temp;
 }
 
@@ -152,7 +150,6 @@ void library::print() {
     it++;
   }
 }
-
 
 //Removes movie from the database based on title.
 void library::remove(string title) {

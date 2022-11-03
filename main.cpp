@@ -30,7 +30,7 @@
 using namespace std;
 
 void menu();
-void movieFound(movie found);
+void movieResult(movie found, string thing);
 movie new_movie();
 
 int main() {
@@ -47,9 +47,11 @@ int main() {
     case 1: {
       cout << "[1] - Print current movie collection." << endl;
       cout << endl;
-      cout << "Here is your current Horror Movie Collection" << endl;
+      cout << ">> Here is your current Horror Movie Collection <<" << endl;
       cout << endl;
       movies.print();
+      cout << ">> End of movie collection. <<" << endl;
+      cout << endl;
     } break;
 
       //Search collection for a movie
@@ -63,10 +65,14 @@ int main() {
       found = movies.find_movie(title);
       // Title is found.
       if(found.Title != "Title not found.") {
-	
-	cout << "Please Enjoy...";
+	cout << '\n' << ">> " << title << " was found in your collection. << " << endl;
+	cout << endl;
+	movieResult(found, title);
+      } else {
+	cout << "\n>> " << title << " was not found in your collection. << " << endl << endl;
+	cout << endl;
       }
-      //movieFound(found);
+
     } break;
 
       //Print movies by director
@@ -78,8 +84,14 @@ int main() {
       getline(cin, director);
       movie found;
       found = movies.director_search(director);
-      cout << "Found it!!" << found.Title << endl;
-      movieFound(found);
+      // Director is found.
+      if(found.Director_Name != "Director not found.") {
+	//	cout << '\n' << ">> " << director << " was found in your collection. << " << endl;
+	movieResult(found, director);
+      } else {
+	cout << "\n>> " << director << " was not found in your collection. << " << endl << endl;
+	cout << endl;
+      }
     } break;
       
       //Add a movie to collection
@@ -90,7 +102,7 @@ int main() {
       movie new_fav_movie = new_movie();
       movies.insert_sorted(new_fav_movie);
       cout << endl;
-      //movieFound();
+      //      movieFound(found);
     } break;
 
       //Delete a movie from collection
@@ -120,12 +132,11 @@ int main() {
       cout << "Please enter name of file to be created: ";
       cin >> fileName;
       movies.write_to_file(fileName);
-      cout <<"Movie collection successfully exported to file: " << fileName << endl;
     } break;
 
       //Exits program
     case 8: {
-      cout << "You have exited the program." << endl;
+      cout << ">> You have exited the program. <<" << endl;
     } break;
       
     default:
@@ -152,15 +163,28 @@ void menu() {
   cout << endl << "Option#: ";
 }
 
-void movieFound(movie found) {
-  cout << "Found: " << endl
-       << "Title: " << found.Title << endl
-       << "Director: " << found.Director_Name << endl
-       << "Runtime: " << found.Movie_Runtime << " minutes" << endl
-       << "Format: " << found.format << endl
-       << "Price: $" << found.Price << endl
-       << "Release Year: " << found.Year << endl
-       << endl;
+void movieResult(movie found, string thing) {
+  if(found.Title == thing) {
+    cout << "Title: " << found.Title << endl
+	 << "Director: " << found.Director_Name << endl
+	 << "Runtime: " << found.Movie_Runtime << " minutes" << endl
+	 << "Format: " << found.format << endl
+	 << "Price: $" << found.Price << endl
+	 << "Release Year: " << found.Year << endl
+	 << endl;
+    return;
+  }
+  if(found.Director_Name == thing) {
+    cout << "\n>> " << found.Director_Name << " directed these movies in your collection. << " << endl << endl;
+    cout << "Title: " << found.Title << endl
+	 << "Director: " << found.Director_Name << endl
+	 << "Runtime: " << found.Movie_Runtime << " minutes" << endl
+	 << "Format: " << found.format << endl
+	 << "Price: $" << found.Price << endl
+	 << "Release Year: " << found.Year << endl
+	 << endl;
+    return;
+  }
 }
 
 
