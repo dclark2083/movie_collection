@@ -124,7 +124,7 @@ class library {
  *
  * @param std::string title Properly formatted string variable of the movie title to be deleted.
  * @pre Linked list of movies has been created and proper movie title is passed to remove.
- * @post Collection of movie  has been increased by 1.
+ * @post Collection of movies  has been reduced by 1.
  * 
  */
   void remove(std::string title);
