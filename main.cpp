@@ -32,7 +32,7 @@ int main() {
       movie found;
       found = movies.find_movie(title);
       cout << "Found: " << endl
-	   << found.Title << endl
+	   << "Title: " << found.Title << endl
 	   << "Director: " << found.Director_Name << endl
 	   << "Runtime: " << found.Movie_Runtime << " minutes" << endl
 	   << "Format: " << found.format << endl
@@ -49,17 +49,15 @@ int main() {
       cin.get();
       getline(cin, director);
       movie found;
-      found = movies.find_movie(director);
+      found = movies.director_search(director);
       cout << "Found: " << endl
-	   << "Director: " << found.Director_Name << endl
 	   << "Title: " << found.Title << endl
+	   << "Director: " << found.Director_Name << endl
 	   << "Runtime: " << found.Movie_Runtime << " minutes" << endl
 	   << "Format: " << found.format << endl
 	   << "Price: $" << found.Price << endl
 	   << "Release Year: " << found.Year << endl
 	   << endl;
-      
-      // Should print all the other info about the movie here...
     } break;
 
       //Add a movie to collection

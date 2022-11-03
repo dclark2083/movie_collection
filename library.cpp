@@ -30,7 +30,7 @@ void library::read_from_file(string fileName) {
     getline(in, new_movie.Title);
   }
   in.close();
-  cout << "Movies loaded" << endl;
+  cout << "Movies loaded successfully." << endl;
 }
 
 
@@ -52,6 +52,7 @@ void library::write_to_file(string fileName) {
     it++;
   }
   out.close();
+  cout << "File written successfully." << endl;
 }
 
 
@@ -75,10 +76,6 @@ void library::insert_sorted(movie new_movie) {
   //     collection.insert(it, new_movie);
   //     return;
   //   }
-  //   if(it->Title > new_movie.Title) {
-  //     it--;
-  //     collection.insert(it, new_movie);
-  //   }
   //   it++;
   // }
 }
@@ -99,14 +96,6 @@ movie library::find_movie(string title) {
   if(it != collection.end()) {
     return *it;
   }
-  
-  
-  // while(it != collection.end()) {
-  //   if(it->Title == title) {
-  //     return *it;
-  //   }
-  //   it++;
-  // }
 
   return temp;
 }
@@ -119,23 +108,14 @@ movie library::director_search(string director) {
   
   list<movie>::iterator it;
   it = collection.begin();
-
-  cout << "here" << endl;
-
+  
   while( (it->Director_Name != director) && (it != collection.end()) ) {
     it++;
   }
-
+  
   if(it != collection.end()) {
     return *it;
   }
-  
-  // while(it != collection.end()) {
-  //   if(it->Director_Name == director) {
-  //     return *it;
-  //   }
-  //   it++;
-  // }
   
   return temp;
 }
