@@ -1,10 +1,28 @@
+/*THINGS TO THINK ABOUT BEFORE FINAL PUSH
+ 
+  (1)For options 1, 2, 3, 5, 7 should we check the size of the list, and if empty print something
+  like "Your movie collection is currently empty, try adding a movie first." But if the db does
+  contain movie(s) it behaves as we have it?
+
+  (2)Do we want a fail message for if a movie isn't found? Say the user doesn't own the movie
+  Forest Gump. They search, and the program should tell them "That movie does not currently exist in db."
+
+  (3)Same thing as (2) but for director?
+
+  (4)Do we want to set all entries from user to upper or lower case so that sorting doesn't rely on user knowing ascii values?
+
+  (5)On option 4, how can we add a print for the info of the movie the user just added? I tried using my movieFound print helper function.
+
+*/
+
 /**
  * @file main.cpp
  * @author Kyle Byassee & Darren Clark
- * @date 2022-11-02
+ * @date 2022-11-03
  * @brief Program to manage user's horror movie collection.
  * 
- * By using the STD linked list this program is capable of creating, deleting, and managing a collection of horror movies.
+ * By using the STD linked list this program is capable of 
+ * creating, deleting, and managing a collection of horror movies.
  */
 
 #include "library.h"
@@ -30,6 +48,9 @@ int main() {
       // Prints movie collection
     case 1: { 
       cout << "[1] - Print current movie collection." << endl;
+      cout << endl;
+      cout << "Here is your current Horror Movie Collection" << endl;
+      cout << endl;
       movies.print();
     } break;
 
@@ -60,9 +81,13 @@ int main() {
       //Add a movie to collection
     case 4: {
       cout << "[4] - Add a movie to collection." << endl;
+      cout << endl;
       cin.get();
       movie new_one = new_movie();
       movies.insert_sorted(new_one);
+      cout << endl;
+      //cout << movie.Title << "successfully added to collection." << endl;
+      //movieFound();
     } break;
 
       //Delete a movie from collection
@@ -109,8 +134,8 @@ int main() {
 
 
 void menu() {
-  cout << "\nWelcome to your horror movie collection. " << endl;
-  cout << "\nPlease select from one of the following 8 options." << endl;
+  cout << "Welcome to your horror movie collection management program. " << endl;
+  cout << "Please select from one of the following 8 options." << endl;
   cout << "[1] - Print current movie collection." << endl;
   cout << "[2] - Search collection for a movie using key phrase." << endl;
   cout << "[3] - Print movie(s) from collection by a specific director." << endl;
@@ -137,27 +162,23 @@ void movieFound() {
 
 movie new_movie() {
   movie new_guy;
-  cout << "Title: ";
+
+  cout << "Please enter the title of the movie to be added: ";
   getline(cin, new_guy.Title);
-  
-  cout << endl
-       << "Director: ";
+
+  cout << "Please enter the director of this movie: ";
   getline(cin, new_guy.Director_Name);
   
-  cout << endl
-       << "Runtime (minutes): ";
+  cout << "Please enter the runtime of this movie (in minutes): ";
   cin >> new_guy.Movie_Runtime;
 
-  cout << endl
-       << "Movie format: ";
+  cout << "What format is this movie - Digital, DVD, Blu-ray, VHS: ";
   cin >> new_guy.format;
 
-  cout << endl
-       << "Price: $";
+  cout << "What was the purchase price of this movie: $";
   cin >> new_guy.Price;
 
-  cout << endl
-       << "Release year: ";
+  cout << "What year was the movie released:  ";
   cin >> new_guy.Year;
 
   return new_guy;

@@ -39,7 +39,9 @@ void library::read_from_file(string fileName) {
     getline(in, new_movie.Title);
   }
   in.close();
-  cout << "Movies loaded successfully." << endl;
+  cout << "." << "\n." << "\n." << endl;
+  cout << "Movies successfully imported from file to collection." << endl;
+  cout << endl;
 }
 
 
