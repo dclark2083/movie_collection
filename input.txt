@@ -1,0 +1,48 @@
+Barbarian
+Zach Cregger
+102
+Digital
+20.99
+2022
+
+The Grudge
+Takashi Shimizu
+91
+DVD
+22.00
+2004
+
+Alien
+Ridley Scott
+117
+VHS
+49.99
+1979
+
+Let Me In
+Matt Reeves
+116
+Blu-ray
+25.00
+2010
+
+A Nightmare on Elm Street
+Wes Craven
+91
+VHS
+29.99
+1984
+
+Psycho
+Gus Van Sant
+105
+DVD
+29.99
+1998
+
+Halloween Kills
+David Gordon Green
+105
+Digital
+19.99
+2021
