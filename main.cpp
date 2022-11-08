@@ -1,3 +1,28 @@
+/* THINGS TO THINK ABOUT BEFORE FINAL PUSH
+  
+  (1)For options 1, 2, 3, 5, 7 should we check the size of the list, and if empty print something
+  like "Your movie collection is currently empty, try adding a movie first." But if the db does
+  contain movie(s) it behaves as we have it?
+  
+  (2)Do we want a fail message for if a movie isn't found? Say the user doesn't own the movie
+  Forest Gump. They search, and the program should tell them "That movie does not currently exist in db."
+  
+  (3)Same thing as (2) but for director?
+  
+  (4)Do we want to set all entries from user to upper or lower case so that sorting doesn't rely on user knowing ascii values?
+  
+  (5)On option 4, how can we add a print for the info of the movie the user just added? I tried using my movieFound print helper function. */
+
+/**
+ * @file main.cpp
+ * @author Kyle Byassee & Darren Clark
+ * @date 2022-11-03
+ * @brief Program to manage user's horror movie collection.
+ * 
+ * By using the STD linked list this program is capable of 
+ * creating, deleting, and managing a collection of horror movies.
+ */
+
 #include "library.h"
 #include <iostream>
 #include <string>
@@ -5,10 +30,11 @@
 using namespace std;
 
 void menu();
+void movieResult(movie found, string thing);
 movie new_movie();
 
 int main() {
-  /* A simple linked list-based movie DB */
+  //Movie database facilitated by a linked list.
   library movies;
   
   int selection = 0;
@@ -16,63 +42,62 @@ int main() {
     menu();
     cin >> selection;
     switch(selection) {
-      
-    case 1: { // Prints movie collection
-      cout << "Option 1" << endl;
+
+      // Prints movie collection
+    case 1: {
+      cout << "[1] - Print current movie collection." << endl;
+      cout << endl;
+      cout << "Here is your current Horror Movie Collection" << endl;
+      cout << endl;
       movies.print();
     } break;
 
       //Search collection for a movie
     case 2: {
-      cout << "Option 2" << endl;
+      cout << "[2] - Search collection for a movie using key phrase." << endl;
       string title = "";
-      cout << "What do you want to watch? ";
+      cout << "What movie would you like to search for? ";
       cin.get();
       getline(cin, title);
       movie found;
       found = movies.find_movie(title);
-      cout << "Found: " << endl
-	   << "Title: " << found.Title << endl
-	   << "Director: " << found.Director_Name << endl
-	   << "Runtime: " << found.Movie_Runtime << " minutes" << endl
-	   << "Format: " << found.format << endl
-	   << "Price: $" << found.Price << endl
-	   << "Release Year: " << found.Year << endl
-	   << endl;
+      // Title is found.
+      // if(found.Title != "Title not found.") {
+      // 	cout << "Please Enjoy...";
+      // }
+      movieResult(found, title);
     } break;
 
       //Print movies by director
     case 3: {
-      cout << "Option 3" << endl;
+      cout << "[3] - Print movie(s) from collection by a specific director." << endl;
       string director = "";
-      cout << "What director are you in the mood for? ";
+      cout << "What director would you like to search for? ";
       cin.get();
       getline(cin, director);
+      //vector<movie> found;
       movie found;
       found = movies.director_search(director);
-      cout << "Found: " << endl
-	   << "Title: " << found.Title << endl
-	   << "Director: " << found.Director_Name << endl
-	   << "Runtime: " << found.Movie_Runtime << " minutes" << endl
-	   << "Format: " << found.format << endl
-	   << "Price: $" << found.Price << endl
-	   << "Release Year: " << found.Year << endl
-	   << endl;
+      cout << "Found it!!" << endl;
+      movieResult(found, director);
     } break;
-
+      
       //Add a movie to collection
     case 4: {
-	cout << "Option 4" << endl;
-	cin.get();
-	movie new_one = new_movie();
-	movies.insert_sorted(new_one);
+      cout << "[4] - Add a movie to collection." << endl;
+      cout << endl;
+      cin.get();
+      movie new_fav_movie = new_movie();
+      movies.insert_sorted(new_fav_movie);
+      cout << endl;
+      //movieFound();
     } break;
 
       //Delete a movie from collection
     case 5: {
-      cout << "Option 5" << endl;
+      cout << "[5] - Delete a movie from collection." << endl;
       string title = "";
-      cout << "What movie do you not want to watch again forever? ";
+      cout << "What movie should be deleted from the collection?" << endl;
       cin.get();
       getline(cin, title);
       movies.remove(title);
@@ -80,29 +105,32 @@ int main() {
 
       //Read in list of movies from file.
     case 6: {
-      cout << "Option 6" << endl;
+      cout << "[6] - Import a list of movies to collection from file." << endl << endl;
       string fileName = "";
-      cout << "Please enter file name: ";
+      cout << "Please enter file name to be imported: ";
       cin >> fileName;
       movies.read_from_file(fileName);
+      cout << endl;
     } break;
 
       //Write list of movies to file.
     case 7: {
-      cout << "Option 7" << endl;
+      cout << "[7] - Export movie collection to file." << endl;
       string fileName = "";
-      cout << "Please enter file name: ";
+      cout << "Please enter name of file to be created: ";
       cin >> fileName;
       movies.write_to_file(fileName);
+      
+      //cout <<"Movie collection successfully exported to file: " << fileName << endl;
     } break;
 
-      // Exits program
+      //Exits program
     case 8: {
-      cout << "Option 8" << endl;
+      cout << "You have exited the program." << endl;
     } break;
       
     default:
-      cout << "Only use numbers 1 - 8" << endl;
+      cout << "Please select from options numbered 1 - 8 only." << endl;
     }
   }
   
@@ -111,43 +139,67 @@ int main() {
 
 
 void menu() {
- cout << "\nWelcome to your horror movie collection. "
-      << "Please select from one of the following 8 options." << endl;
- cout << "\t[1] - Print current movie collection." << endl;
- cout << "\t[2] - Search collection for a movie using key phrase." << endl;
- cout << "\t[3] - Print movie(s) from collection by a specific director." << endl;
- cout << "\t[4] - Add a movie to collection." << endl;
- cout << "\t[5] - Delete a movie from collection." << endl;
- cout << "\t[6] - Import a list of movies to collection from file." << endl;
- cout << "\t[7] - Export movie collection to file." << endl;
- cout << "\t[8] - Exit movie collection management program." << endl;
- cout << "Option#: ";
+  cout << "Welcome to your horror movie collection management program. " << endl
+       << "Please select from one of the following 8 options..." << endl
+       << endl
+       << "[1] - Print current movie collection." << endl
+       << "[2] - Search collection for a movie using key phrase." << endl
+       << "[3] - Print movie(s) from collection by a specific director." << endl
+       << "[4] - Add a movie to collection." << endl
+       << "[5] - Delete a movie from collection." << endl;
+  cout << "[6] - Import a list of movies to collection from file." << endl;
+  cout << "[7] - Export movie collection to file." << endl;
+  cout << "[8] - Exit movie collection management program." << endl;
+  cout << endl << "Option#: ";
+}
+
+void movieResult(movie found, string thing) {
+  // Title Not Found
+  if(found.Title != thing) {
+    cout << endl << "Title: " << found.Title << endl
+	 << endl;
+    return;
+  }
+
+  // Director Not Found
+  if(found.Director_Name != thing) {
+    cout << endl << "Director: " << found.Director_Name << endl
+	 << endl;
+    return;
+  }
+  
+  //for(int i = 0; i < found.size(); i++) {
+    cout << "Found it!!" << endl
+	 << "Title: " << found.Title << endl
+	 << "Director: " << found.Director_Name << endl
+	 << "Runtime: " << found.Movie_Runtime << " minutes" << endl
+	 << "Format: " << found.format << endl
+	 << "Price: $" << found.Price << endl
+	 << "Release Year: " << found.Year << endl
+	 << endl;
+    //}
 }
 
 
 movie new_movie() {
   movie new_guy;
-  cout << "Title: ";
+
+  cout << "Please enter the title of the movie to be added: ";
   getline(cin, new_guy.Title);
-  
-  cout << endl
-       << "Director: ";
+
+  cout << "Please enter the director of this movie: ";
   getline(cin, new_guy.Director_Name);
   
-  cout << endl
-       << "Runtime (minutes): ";
+  cout << "Please enter the runtime of this movie (in minutes): ";
   cin >> new_guy.Movie_Runtime;
 
-  cout << endl
-       << "Movie format: ";
+  cout << "What format is this movie - Digital, DVD, Blu-ray, VHS: ";
   cin >> new_guy.format;
 
-  cout << endl
-       << "Price: $";
+  cout << "What was the purchase price of this movie: $";
   cin >> new_guy.Price;
 
-  cout << endl
-       << "Release year: ";
+  cout << "What year was the movie released:  ";
   cin >> new_guy.Year;
 
   return new_guy;

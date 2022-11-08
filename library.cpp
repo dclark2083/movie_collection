@@ -1,4 +1,14 @@
+/**
+ * @file library.cpp
+ * @author Kyle Byassee & Darren Clark
+ * @date 2022-11-02
+ * @brief .cpp file to implement the library header file.
+ * 
+ * I can't recall, do these need a description other than brief?
+ */
+
 #include "library.h"
+//#include <vector>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,7 +18,7 @@ using namespace std;
 library::library() {} // Included for extendability.
 
 
-// reads the library from a file
+// Reads the library from a file.
 void library::read_from_file(string fileName) {
   ifstream in;
   movie new_movie;
@@ -30,11 +40,16 @@ void library::read_from_file(string fileName) {
     getline(in, new_movie.Title);
   }
   in.close();
-  cout << "Movies loaded successfully." << endl;
+  
+  if (in.eof()) {
+    cout << fileName << " read successfully!!" << endl; // Joy
+  } else {
+    cout << "error reading: " << fileName << endl;
+  }
 }
 
 
-// writes the library to a text file
+//Writes the library to a text file.
 void library::write_to_file(string fileName) {
   ofstream out;
   list<movie>::iterator it;
@@ -52,11 +67,16 @@ void library::write_to_file(string fileName) {
     it++;
   }
   out.close();
-  cout << "File written successfully." << endl;
+  
+  if (out.eof()) {
+    cout << "File written successfully." << endl;
+  } else {
+    cout << "error writting: " << fileName << endl; // Sad
+  }
 }
 
 
-// sort by the movie's title.
+// Sort by the movie's title.
 void library::insert_sorted(movie new_movie) {
   if(collection.size() == 0) {
     collection.push_back(new_movie);
@@ -70,21 +90,15 @@ void library::insert_sorted(movie new_movie) {
     it++;
   }
   collection.insert(it, new_movie);
-  
-  // while(it != collection.end()) {
-  //   if(it->Title < new_movie.Title) {
-  //     collection.insert(it, new_movie);
-  //     return;
-  //   }
-  //   it++;
-  // }
+
+  cout << "inserted successfully!!" << endl;
 }
 
-
-// prints all of the movies with the searched string as a substring
+// Prints all of the movies with the searched string as a substring.
 movie library::find_movie(string title) {
-  movie temp;
-  temp.Title = "Title not found.";
+  movie not_found;
+  not_found.Title = "Title not found.";
+  not_found.Director_Name = "Director not found.";
   
   list<movie>::iterator it;
   it = collection.begin();
@@ -93,35 +107,53 @@ movie library::find_movie(string title) {
     it++;
   }
 
-  if(it != collection.end()) {
-    return *it;
+  if(it == collection.end()) {
+    return not_found;
   }
-
-  return temp;
+  
+  return *it;
 }
 
 
-// prints information on all movies by a given director
+// Prints information on all movies by a given director.
 movie library::director_search(string director) {
   movie temp;
   temp.Director_Name = "Director not found.";
+  temp.Title = "Title not found.";
   
   list<movie>::iterator it;
   it = collection.begin();
+
+  // vector<movie> filmography;
+  movie found;
   
   while( (it->Director_Name != director) && (it != collection.end()) ) {
+    // If found
+    if(it->Director_Name == director) {
+      temp = *it;
+      return temp;
+    }
+    
+    // if(it->Director_Name == director) {
+    //   temp = *it;
+    //   filmography.pushback(temp);
+    // }
+    // if(it != collection.end()) {
+    //   return *it;
+    // }
+    
     it++;
   }
+
+
   
-  if(it != collection.end()) {
-    return *it;
-  }
-  
+  // If not found...
+  // return filmography;
   return temp;
 }
 
 
-// prints the library to screen
+// Prints the library to screen
 void library::print() {
   list<movie>::iterator it;
   it = collection.begin();
@@ -138,7 +170,7 @@ void library::print() {
 }
 
 
-// removes movie from the database based on title
+// Removes movie from the database based on title.
 void library::remove(string title) {
   list<movie>::iterator it;
   it = collection.begin();
